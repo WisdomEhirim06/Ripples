@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/Colourful Circular Logo Design.png">
+    <meta name="description" content="Ripple - Speak Freely. Create anonymous temporary chat rooms for authentic conversations. Share your thoughts freely, connect genuinely, and let your voice ripple through the community.">
+    <meta name="keywords" content="Ripple, chat rooms, anonymous conversations, temporary rooms, mood detection, AI, community, authentic sharing">
+    <meta name="Wisdom Ehirim" content="Ripple Team">
+    <title>Ripple - Speak Freely</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 min-h-screen">
+    <!-- Landing Page -->
+     <div class="wave-bg">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+    </div>
+
+    <div id="landing-page" class="container mx-auto px-4 py-8">
+        <div class="text-center mb-12">
+            <div class="ripple-logo mb-6">
+                <div class="ripple-circle"></div>
+                <div class="ripple-circle"></div>
+                <div class="ripple-circle"></div>
+            </div>
+            <h1 class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
+                Ripple
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Create anonymous temporary chat rooms for authentic conversations. 
+                Share your thoughts freely, connect genuinely, and let your voice ripple through the community.
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mask text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Anonymous Identity</h3>
+                    <p class="text-gray-600">Express yourself freely with randomly assigned identities. No one needs to know you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Temporary Rooms</h3>
+                    <p class="text-gray-600">Conversations that naturally expire, creating space for authentic, in-the-moment sharing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart text-pink-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Mood Detection</h3>
+                    <p class="text-gray-600">AI-powered mood detection helps create empathetic connections and understanding.</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button id="create-room-btn" class="create-room-btn">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create New Room
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Creation Modal -->
+    <div id="room-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-2xl font-bold text-gray-800">Create New Room</h3>
+                <button id="cancel-room" class="text-gray-400 hover:text-gray-600 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="room-form" class="space-y-6">
+                <div class="form-group">
+                    <label for="room-topic" class="form-label">Room Topic</label>
+                    <input type="text" id="room-topic" class="form-input" placeholder="What would you like to talk about?" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="room-duration" class="form-label">Duration</label>
+                    <select id="room-duration" class="form-input">
+                        <option value="1">1 hour</option>
+                        <option value="2">2 hours</option>
+                        <option value="4">4 hours</option>
+                        <option value="8">8 hours</option>
+                        <option value="24">24 hours</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="max-participants" class="form-label">Max Participants (Optional)</label>
+                    <input type="number" id="max-participants" class="form-input" placeholder="Leave empty for unlimited" min="2" max="100">
+                </div>
+
+                <div class="flex gap-4">
+                    <button type="button" id="cancel-room" class="btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="btn-primary flex-1">Create Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Room Page -->
+    <div id="room-page" class="hidden">
+        <div class="room-header">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="ripple-mini">
+                            <div class="mini-circle"></div>
+                            <div class="mini-circle"></div>
+                        </div>
+                        <div>
+                            <h1 id="room-topic-header" class="text-2xl font-bold text-white"></h1>
+                            <p id="user-identity" class="text-purple-200"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="timer-container">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span id="room-timer">00:00:00</span>
+                        </div>
+                        <button onclick="window.location.href='/'" class="btn-outline">
+                            <i class="fas fa-home mr-2"></i>
+                            Leave Room
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- Post Input -->
+                <div class="post-input-card">
+                    <div class="mb-4">
+                        <textarea id="post-input" class="post-textarea" placeholder="Share your thoughts... What's on your mind?" maxlength="300"></textarea>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span id="char-count" class="text-sm text-gray-500">0/300</span>
+                        <button id="submit-post" class="btn-primary" disabled>
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Send
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Posts Container -->
+                <div class="posts-section">
+                    <div id="loading-posts" class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p class="text-gray-600 mt-4">Loading posts...</p>
+                    </div>
+                    
+                    <div id="no-posts" class="no-posts-container hidden">
+                        <div class="no-posts-icon">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No posts yet</h3>
+                        <p class="text-gray-500">Be the first to share your thoughts!</p>
+                    </div>
+                    
+                    <div id="posts-container" class="posts-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expired Room Page -->
+    <div id="expired-page" class="hidden">
+        <div class="container mx-auto px-4 py-16">
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="expired-icon">
+                    <i class="fas fa-clock text-6xl text-gray-400"></i>
+                </div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Room Expired</h1>
+                <p class="text-xl text-gray-600 mb-8">This room has reached its time limit and is no longer available.</p>
+                <button onclick="window.location.href='/'" class="btn-primary">
+                    <i class="fas fa-home mr-2"></i>
+                    Return Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notifications" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <script src="index.js"></script>
+</body>
+</html>
