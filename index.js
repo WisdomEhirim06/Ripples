@@ -112,11 +112,20 @@ class RippleApp {
             });
 
             if (response.ok) {
-                const room = await response.json();
+                const data = await response.json();
+
+                // Set current room and user identity
+                this.currentRoomId = data.room.id;
+                this.userIdentiy = data.session_id; 
+
                 this.hideRoomModal();
                 this.showNotification('Room created successfully!', 'success');
                 window.history.pushState({}, '', `/room/${room.id}`);
-                this.joinRoom(room.id);
+                
+                this.showRoomPage(data.room);
+                this.loadPosts();
+                this.connectWebSocket();
+                this.startRoomTimer(data.room.expires_at);
             } else {
                 const error = await response.json();
                 this.showNotification(error.detail || 'Failed to create room', 'error');
